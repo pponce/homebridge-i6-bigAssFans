@@ -149,11 +149,11 @@ export class BigAssFans_i6PlatformAccessory {
       .setCharacteristic(this.platform.Characteristic.SerialNumber, this.MAC);
 
     // Fan
-    this.fanService = this.accessory.getService(this.platform.Service.Fan) ||
-      this.accessory.addService(this.platform.Service.Fan);
+    this.fanService = this.accessory.getService(this.platform.Service.Fanv2) ||
+      this.accessory.addService(this.platform.Service.Fanv2);
     this.fanService.setCharacteristic(this.platform.Characteristic.Name, accessory.context.device.name);
 
-    this.fanService.getCharacteristic(this.platform.Characteristic.On)
+    this.fanService.getCharacteristic(this.platform.Characteristic.Active)
       .onSet(this.setFanOnState.bind(this))
       .onGet(this.getFanOnState.bind(this));
 
