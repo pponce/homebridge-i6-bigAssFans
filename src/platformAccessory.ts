@@ -35,7 +35,7 @@ export class BigAssFans_i6PlatformAccessory {
   };
 
   public fanStates = {
-    On: false,
+    Active: false,
     RotationDirection: 1,
     RotationSpeed: 1,   // on scale from 1 to 7
     homeShieldUp: false,  // used to prevent Home.app from turning fan on at 100% when it's at zero percent.
@@ -351,20 +351,20 @@ export class BigAssFans_i6PlatformAccessory {
 
   async setFanOnState(value: CharacteristicValue) {
     debugLog(this, 'characteristics', 3, 'Set Characteristic Fan On -> ' + value);
-    this.fanStates.On = value as boolean;
+    this.fanStates.Active = value as boolean;
 
     // If the fan is in Auto mode and on command in response to this Set from HomeKit,
     // then it's going to reply with FanOn 0x01 which will cause us to drop it out of auto because it's not 0x02.
     // If homekit is telling us to setFanOnState On while it's in Auto Mode, it must be because we changed the speed so,
     // ignore this setFanOnState request.
-    if (this.fanAutoSwitchOn && this.fanStates.On) {
+    if (this.fanAutoSwitchOn && this.fanStates.Active) {
       return;
     }
-    clientWrite(this.client, Buffer.from(ONEBYTEHEADER.concat([0xd8, 0x02, (this.fanStates.On ? 0x01 : 0x00), 0xc0])), this);
+    clientWrite(this.client, Buffer.from(ONEBYTEHEADER.concat([0xd8, 0x02, (this.fanStates.Active ? 0x01 : 0x00), 0xc0])), this);
   }
 
   async getFanOnState(): Promise<CharacteristicValue> {
-    const isOn = this.fanStates.On;
+    const isOn = this.fanStates.Active;
     debugLog(this, 'characteristics', 3, 'Get Characteristic Fan On -> ' + isOn);
     return isOn;
   }
@@ -469,7 +469,7 @@ export class BigAssFans_i6PlatformAccessory {
       clientWrite(this.client, Buffer.from(ONEBYTEHEADER.concat([0xd8, 0x02, 0x02, 0xc0])), this);
     } else {
       // in order for fan to turn auto off, we need to tell it to be on or off
-      this.setFanOnState(this.fanStates.On);
+      this.setFanOnState(this.fanStates.Active);
     }
   }
 
@@ -1152,9 +1152,9 @@ function fanOnState(value: number|string, pA:BigAssFans_i6PlatformAccessory) {
 
   if (value !== 2) {
     const onValue = (value === 0 ? false : true);
-    pA.fanStates.On = onValue;
-    debugLog(pA, 'characteristics', 3, 'update FanOn: ' + pA.fanStates.On);
-    pA.fanService.updateCharacteristic(pA.platform.Characteristic.On, pA.fanStates.On);
+    pA.fanStates.Active = onValue;
+    debugLog(pA, 'characteristics', 3, 'update FanOn: ' + pA.fanStates.Active);
+    pA.fanService.updateCharacteristic(pA.platform.Characteristic.Active, pA.fanStates.Active);
   }
 }
 
@@ -1177,16 +1177,16 @@ function fanRotationSpeed(value: number|string, pA:BigAssFans_i6PlatformAccessor
     debugLog(pA, 'characteristics', 3, 'update RotationSpeed: ' + speedPercent + '%');
     pA.fanService.updateCharacteristic(pA.platform.Characteristic.RotationSpeed, speedPercent);
 
-    if (!pA.fanStates.On) {
-      pA.fanStates.On = true;
-      debugLog(pA, 'characteristics', 3, 'update FanOn: ' + pA.fanStates.On + ' because (auto && speed > 0)');
-      pA.fanService.updateCharacteristic(pA.platform.Characteristic.On, pA.fanStates.On);
+    if (!pA.fanStates.Active) {
+      pA.fanStates.Active = true;
+      debugLog(pA, 'characteristics', 3, 'update FanOn: ' + pA.fanStates.Active + ' because (auto && speed > 0)');
+      pA.fanService.updateCharacteristic(pA.platform.Characteristic.Active, pA.fanStates.Active);
     }
   } else {
-    if (pA.fanStates.On) {
-      pA.fanStates.On = false;
-      debugLog(pA, 'characteristics', 3, 'update FanOn: ' + pA.fanStates.On + ' because (auto && speed == 0)');
-      pA.fanService.updateCharacteristic(pA.platform.Characteristic.On, pA.fanStates.On);
+    if (pA.fanStates.Active) {
+      pA.fanStates.Active = false;
+      debugLog(pA, 'characteristics', 3, 'update FanOn: ' + pA.fanStates.Active + ' because (auto && speed == 0)');
+      pA.fanService.updateCharacteristic(pA.platform.Characteristic.Active, pA.fanStates.Active);
     }
   }
 }
