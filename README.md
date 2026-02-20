@@ -70,16 +70,6 @@ To install a specific pre-release version from npm, append the version after `@`
 sudo npm install -g homebridge-i6-bigassfans@0.6.0-beta9
 ```
 
-#### Install a fork directly from GitHub
-
-If you fork this plugin, you can install your fork directly with Homebridge Service:
-
-```sh
-sudo hb-service add <username>/homebridge-i6-bigAssFans
-```
-
-> Note: this plugin includes an npm `prepare` step, so TypeScript is built automatically when installed from a Git repository.
-
 #### **Configuration**
 
 Add the `BigAssFans-i6` platform in `config.json` in your home directory inside `.homebridge`.
