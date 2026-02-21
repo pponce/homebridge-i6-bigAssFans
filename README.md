@@ -51,8 +51,8 @@ Occasionally HomeKit will briefly show the light (if equipped) or the light auto
 
 ### Requirements
 
-* Homebridge 1.3.0 up to (but not including) 3.0.0
-* Node.js 10.17.0 or newer
+* Homebridge 1.8.0 up to (but not including) 3.0.0
+* Node.js 18.20.4 or newer
 
 Homebridge 2.x is fully supported.
 
