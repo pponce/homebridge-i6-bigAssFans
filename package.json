@@ -13,8 +13,8 @@
     "url": "https://github.com/oogje/homebridge-i6-bigAssFans/issues"
   },
   "engines": {
-    "node": "^18.20.4 || ^20.15.1 || ^22",
-    "homebridge": "^1.6.0 || ^2.0.0"
+  "homebridge": "^1.8.0 || ^2.0.0-beta.0 || ^2.0.0",
+  "node": "^18.20.4 || ^20.15.1 || ^22.0.0 || ^24.0.0"
   },
   "main": "dist/index.js",
   "scripts": {
