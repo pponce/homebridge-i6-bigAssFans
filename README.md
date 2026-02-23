@@ -70,6 +70,11 @@ To install a specific pre-release version from npm, append the version after `@`
 sudo npm install -g homebridge-i6-bigassfans@0.6.0-beta9
 ```
 
+To install this fork
+```sh
+sudo npm install -g pponce/homebridge-i6-bigassfans
+```
+
 #### **Configuration**
 
 Add the `BigAssFans-i6` platform in `config.json` in your home directory inside `.homebridge`.
